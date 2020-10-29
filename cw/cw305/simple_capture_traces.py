@@ -110,6 +110,10 @@ def parse_args():
                       '-p',
                       type=int,
                       help="Plot number of traces.")
+  parser.add_argument('--start-delay',
+                      '-d',
+                      type=int,
+                      help="Wait number of seconds between init and capture.")
   args = parser.parse_args()
   return args
 
@@ -128,6 +132,10 @@ if __name__ == "__main__":
     cfg_file['plot_capture']['num_traces'] = args.plot_traces
 
   ot = initialize_capture(cfg_file['device'], cfg_file['spiflash'])
+
+  if args.start_delay:
+    print('To reduce capture noise, you can now unplug the FTDI cable.')
+    time.sleep(args.start_delay)
 
   # Key and plaintext generator
   ktp = cw.ktp.Basic()
